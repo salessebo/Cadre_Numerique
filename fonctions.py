@@ -1,16 +1,32 @@
+from PIL import Image, ExifTags
+from Album import Album
+from ListePhotos import ListePhotos
+
 def getRotation(fichier):
-    # Utiliser Pillow
-    # Extraire l'information EXIF de rotation de l'image
-    pass
+    img = Image.open(fichier) 
+    for orientation in ExifTags.TAGS.keys():
+        if ExifTags.TAGS[orientation]=='Orientation':
+            break
+    print("Orientation (Indice) : ", orientation)
+
+    try:
+        exifData = img._getexif()
+        print("Orientation (Valeur) : ", exifData[orientation])
+    except:
+        print("Pas d'EXIF data")
+        
+        
+getRotation("no-image.png")
+getRotation("test.jpg")
 
 def aspectScale(img,tailleEcran):
     # Utiliser Pillow
-    # Mettre a l'echelle l'image 'img' pour s'ajuster à 'tailleEcran'.
-    # Respecter les proportion de l'image originale
+    # Mettre a l'echelle l'fichier 'img' pour s'ajuster à 'tailleEcran'.
+    # Respecter les proportion de l'fichier originale
     pass
   
 def cornerPos(img, tailleEcran):
-    # Position du coin de l'image
+    # Position du coin de l'fichier
     pass
   
 def event_btnAlbum(channel):
