@@ -1,0 +1,7 @@
+wakeup : "07:00:00"
+close : "21:00:00"
+period : "00:00:10"
+path : 'C:/Users/Supreme/Desktop/Projet_3/albums/'
+screen_width : 800
+screen_height : 600
+fps : 1
