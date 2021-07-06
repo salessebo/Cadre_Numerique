@@ -6,7 +6,6 @@ from ListePhotos import ListePhotos
 from Album import Album
 from EtatSysteme import EtatSysteme
 from fonctions import *
-from PIL import Image, ExifTags
 
 
 pygame.init()
@@ -19,6 +18,8 @@ listePhotos = ListePhotos(album.getAlbumCourant())
 etat = EtatSysteme.ACTIF
 photo = listePhotos.getPhoto()
 img = pygame.image.load(photo)
+new_size = aspectScale(img,config.SCREEN_SIZE)
+new_position = cornerPos(img,config.SCREEN_SIZE)
 temps1 = time.time()
 print(datetime.now(), photo)
 
@@ -64,10 +65,14 @@ while running:
             img = pygame.image.load(photo)
             """ Traitement de la photo """
             #rotation = getRotation(photo)
-            new_size = aspectScale(img,config.SCREEN_SIZE)
-            
 
+            new_size = aspectScale(img,config.SCREEN_SIZE)
             img = pygame.transform.scale(img, (new_size))
+
+            new_position = cornerPos(img,config.SCREEN_SIZE)
+            print(new_position)
+
+
             img.convert() 
         
         
@@ -77,7 +82,7 @@ while running:
         #     img = pygame.transform.rotate(img, rotation)
 
         screen.fill("#000000")
-        screen.blit(img, (0,0))
+        screen.blit(img, new_position)
     
 
         
