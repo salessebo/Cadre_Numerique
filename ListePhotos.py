@@ -16,20 +16,16 @@ class ListePhotos():
         self.photoCourante = 0
         self.noImage = "no-image.png"
     def getPhoto(self):
-        
-        if self.photoCourante < (len(self.listePhotos) - 1):
-            photo = self.listePhotos[self.photoCourante]            
-            self.photoCourante = self.photoCourante + 1
-        else:
-            self.photoCourante = 0
-            try:
-                photo = self.listePhotos[self.photoCourante]
-            except:
-                pass
-            
         if len(self.listePhotos) == 0:
             photo = self.noImage
-                       
+        else:
+            photo = self.listePhotos[self.photoCourante]
+            if self.photoCourante < (len(self.listePhotos) - 1):
+                self.photoCourante = self.photoCourante + 1
+            else:
+                self.photoCourante = 0
+            
+        
         return(photo)
 if __name__ == "__main__":
     print ("Début du test\n")
