@@ -2,6 +2,6 @@ wakeup : "07:00:00"
 close : "21:00:00"
 period : "00:00:02"
 path : 'albums/'
-screen_width : 800
-screen_height : 600
+screen_width : 700
+screen_height : 500
 fps : 1

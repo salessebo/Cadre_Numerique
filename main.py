@@ -12,12 +12,13 @@ from PIL import Image, ExifTags
 pygame.init()
 
 config = Config()
-screen = pygame.display.set_mode([500, 500])
+screen = pygame.display.set_mode(config.SCREEN_SIZE)
 clock = pygame.time.Clock()
 album = Album(config)
 listePhotos = ListePhotos(album.getAlbumCourant())
 etat = EtatSysteme.ACTIF
 photo = listePhotos.getPhoto()
+img = pygame.image.load(photo)
 temps1 = time.time()
 print(datetime.now(), photo)
 
@@ -31,7 +32,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.MOUSEBUTTONDOWN:
-            listePhotos = ListePhotos(album.getNextAlbum())
+            photo = listePhotos.getPhoto()
         if event.type == pygame.KEYDOWN:  
             if event.key == pygame.K_LEFT: # Simule le bouton GPIO 17
                 listePhotos = ListePhotos(album.getNextAlbum())
@@ -59,17 +60,24 @@ while running:
         if temps_ecoule>config.getPeriod():
             temps1 = temps2
             photo = listePhotos.getPhoto()
-            print(datetime.now(), photo)
-            rotation = getRotation(photo)
-        """ Traitement de la photo """
-        img = pygame.image.load(photo)
-        img.convert() 
+            print("\n",datetime.now(), photo)
+            img = pygame.image.load(photo)
+            """ Traitement de la photo """
+            #rotation = getRotation(photo)
+            new_size = aspectScale(img,config.SCREEN_SIZE)
+            
+
+            img = pygame.transform.scale(img, (new_size))
+            img.convert() 
+        
+        
+        
         
         # if rotation != 0:
         #     img = pygame.transform.rotate(img, rotation)
 
-
-        screen.blit(img, (10,10))
+        screen.fill("#000000")
+        screen.blit(img, (0,0))
     
 
         
