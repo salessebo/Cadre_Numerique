@@ -22,3 +22,4 @@ def event_btnVeille(channel):
         etat = SystemeEtat.ALLUME
     else:
         etat = SystemeEtat.VEILLE
+#test Modif
