@@ -27,10 +27,10 @@ def aspectScale(img,tailleEcran):
     
     if img_width<img_height:    #type portrait
         ajustement = tailleEcran[1]/img_height
-        print(tailleEcran[1] > img_height)
+        print("fit :", tailleEcran[1] >= img_height)
     else:                       #type paysage
         ajustement = tailleEcran[0]/img_width
-        print("fit :", tailleEcran[0] > img_width)
+        print("fit :", tailleEcran[0] >= img_width)
 
     if ajustement < 1:          #Si le cadre est plus petit que la photo
         print("ajustement :", ajustement)

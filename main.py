@@ -1,3 +1,4 @@
+import RPi.GPIO as GPIO
 import time
 from datetime import datetime
 import pygame
@@ -8,7 +9,33 @@ from EtatSysteme import EtatSysteme
 from fonctions import *
 
 
+def BoutonVeille(ev=None):
+    global etat, temps1
+    if etat == EtatSysteme.VEILLE:
+        etat = EtatSysteme.ACTIF
+        temps1 = time.time()
+    else:
+        etat = EtatSysteme.VEILLE
+
+def BoutonNextAlbum(ev=None):
+    global listePhotos, photo
+    listePhotos = ListePhotos(album.getNextAlbum())
+    print(album.getAlbumCourant())
+    photo = listePhotos.getPhoto()
+
+VEILLE = 17
+NEXTALBUM = 18
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(VEILLE, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+GPIO.setup(NEXTALBUM, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+GPIO.add_event_detect(VEILLE, GPIO.FALLING, callback=BoutonVeille, bouncetime=500)
+GPIO.add_event_detect(NEXTALBUM, GPIO.FALLING, callback=BoutonNextAlbum, bouncetime=500)
+
 pygame.init()
+
 
 config = Config()
 screen = pygame.display.set_mode(config.SCREEN_SIZE)
@@ -21,6 +48,7 @@ img = pygame.image.load(photo)
 new_size = aspectScale(img,config.SCREEN_SIZE)
 new_position = cornerPos(img,config.SCREEN_SIZE)
 temps1 = time.time()
+
 print(datetime.now(), photo)
 
 running = True
@@ -64,7 +92,9 @@ while running:
             print("\n",datetime.now(), photo)
             img = pygame.image.load(photo)
             """ Traitement de la photo """
-            #rotation = getRotation(photo)
+            rotation = getRotation(photo)
+            # if rotation != 0:
+            #     img = pygame.transform.rotate(img, rotation)
 
             new_size = aspectScale(img,config.SCREEN_SIZE)
             img = pygame.transform.scale(img, (new_size))
@@ -78,8 +108,7 @@ while running:
         
         
         
-        # if rotation != 0:
-        #     img = pygame.transform.rotate(img, rotation)
+        
 
         screen.fill("#000000")
         screen.blit(img, new_position)
